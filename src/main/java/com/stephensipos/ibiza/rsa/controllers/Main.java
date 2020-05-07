@@ -41,10 +41,10 @@ public class Main {
             var m = new BigInteger(modulus.getText());
             var sk = new BigInteger(secretKey.getText());
             var pk = new BigInteger(publicKey.getText());
-            var cypherText = cipher.getText();
-            var message = RSA.decryptString(new BigInteger(cypherText), sk, m);
+            var cipherText = cipher.getText();
+            var message = RSA.decryptString(new BigInteger(cipherText), sk, m);
 
-            if (!cypherText.equals(RSA.encryptString(message, pk, m).toString())) {
+            if (!cipherText.equals(RSA.encryptString(message, pk, m).toString())) {
                 throw new IllegalArgumentException("Encrypted message does not match the original cipher.");
             }
             decryptMessage.setText(message);
@@ -68,7 +68,7 @@ public class Main {
             var c = RSA.encryptString(message, pk, m).toString();
 
             if (!RSA.decryptString(new BigInteger(c), sk, m).equals(message)) {
-                throw new IllegalArgumentException("Decrypted cypher does not match the original message.");
+                throw new IllegalArgumentException("Decrypted cipher does not match the original message.");
             }
             cipher.setText(c);
 
