@@ -16,7 +16,7 @@ public class ExtendedEuclideanAlgorithm {
             this.remainder = remainder;
         }
 
-        public BigInteger[] getGreatestCommonDivisorAndParameters() {
+        public BigInteger[] gcdWithCoefficients() {
             BigInteger[] result = new BigInteger[3];
             if (precedingStep == null) {
                 result[0] = result[1] = result[2]= ZERO;
@@ -29,7 +29,7 @@ public class ExtendedEuclideanAlgorithm {
                     result[2] = getY().multiply(NEGATIVE_ONE.pow(getIteration() + 1));
                 } else {
                     Step next = new Step(this, divisionResult[1]);
-                    result = next.getGreatestCommonDivisorAndParameters();
+                    result = next.gcdWithCoefficients();
                 }
             }
             return result;
@@ -72,13 +72,13 @@ public class ExtendedEuclideanAlgorithm {
         }
     }
 
-    public static int[] getGreatestCommonDivisor(int firstNumber, int secondNumber) {
+    public static int[] gcdWithCoefficients(int firstNumber, int secondNumber) {
         BigInteger[] results;
-        results = getGreatestCommonDivisorAndParameters(BigInteger.valueOf(firstNumber), BigInteger.valueOf(secondNumber));
+        results = gcdWithCoefficients(BigInteger.valueOf(firstNumber), BigInteger.valueOf(secondNumber));
         return Arrays.stream(results).mapToInt(r -> r.intValue()).toArray();
     }
 
-    public static BigInteger[] getGreatestCommonDivisorAndParameters(BigInteger a, BigInteger b) {
+    public static BigInteger[] gcdWithCoefficients(BigInteger a, BigInteger b) {
         Step step0, step1;
         if (a.compareTo(b) == -1) {
             step0 = new Step(null, b);
@@ -88,6 +88,6 @@ public class ExtendedEuclideanAlgorithm {
             step1 = new Step(step0, b);
         }
 
-        return step1.getGreatestCommonDivisorAndParameters();
+        return step1.gcdWithCoefficients();
     }
 }

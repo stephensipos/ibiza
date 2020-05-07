@@ -1,8 +1,8 @@
 package com.stephensipos.ibiza.algorithms;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 
+import static com.stephensipos.ibiza.algorithms.FastModularExponentiation.power;
 import static java.math.BigInteger.ZERO;
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TWO;
@@ -51,13 +51,13 @@ public class MillerRabin {
         var s = sd.s;
         var d = sd.d;
 
-        BigInteger x = base.modPow(d, n);
+        BigInteger x = power(base, d, n);
 
         if (x.equals(ONE) || x.equals(n.subtract(ONE))) {
             return true;
         } else {
             for (var r = 1; r < s; r += 1) {
-                if (base.modPow(d.multiply(TWO.pow(r)), n).equals(n.subtract(ONE))) {
+                if (power(base, d.multiply(TWO.pow(r)), n).equals(n.subtract(ONE))) {
                     return true;
                 }
             }

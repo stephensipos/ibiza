@@ -3,11 +3,11 @@ package com.stephensipos.ibiza.algorithms;
 import java.math.BigInteger;
 
 public class GreatestCommonDivisor {
-    public static int getGreatestCommonDivisor(int firstNumber, int secondNumber) {
-        return getGreatestCommonDivisor(BigInteger.valueOf(firstNumber), BigInteger.valueOf(secondNumber)).intValue();
+    public static int gcd(int firstNumber, int secondNumber) {
+        return gcd(BigInteger.valueOf(firstNumber), BigInteger.valueOf(secondNumber)).intValue();
     }
 
-    public static BigInteger getGreatestCommonDivisor(BigInteger firstNumber, BigInteger secondNumber) {
+    public static BigInteger gcd(BigInteger firstNumber, BigInteger secondNumber) {
         while (!firstNumber.equals(secondNumber)) {
             if(firstNumber.compareTo(secondNumber) == 1) {
                 firstNumber = firstNumber.subtract(secondNumber);
