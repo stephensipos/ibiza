@@ -17,20 +17,28 @@ public class RSA {
         return generateKeys(DEFAULT_KEY_SIZE);
     }
 
+
     public static BigInteger[] generateKeys(int size) {
         var p = getRandom(size);
         var q = getRandom(size);
+        return generateKeys(p, q);
+    }
+
+    public static BigInteger[] generateKeys(BigInteger p, BigInteger q) {
         var modulus = p.multiply(q);
         var phi = p.subtract(ONE).multiply(q.subtract(ONE));
         var publicKey = generatePublicKey(phi);
 
+        /*
         BigInteger[] eea = ExtendedEuclideanAlgorithm.gcdWithCoefficients(phi, publicKey);
 
-        // var secretKey = publicKey.modInverse(phi);
         var secretKey = eea[2];
         if (secretKey.compareTo(TWO) == -1) {
             secretKey = secretKey.add(phi);
         }
+        */
+
+        var secretKey = publicKey.modInverse(phi);
 
         // Public Key, Secure Key, Modulus
         return new BigInteger[] {publicKey, secretKey, modulus};
@@ -90,4 +98,14 @@ public class RSA {
         return new String(c.toByteArray());
     }
 
+    public static BigInteger crtDecrypt(BigInteger cipher, BigInteger p, BigInteger q, BigInteger secretKey) {
+        var mp = cipher.modPow(secretKey.mod(p.subtract(ONE)), p);
+        var mq = cipher.modPow(secretKey.mod(q.subtract(ONE)), q);
+        var eea = ExtendedEuclideanAlgorithm.gcdWithCoefficients(p, q);
+        var modulus = p.multiply(q);
+
+        var message = mp.multiply(eea[2]).multiply(q).add(mq.multiply(eea[1]).multiply(p)).mod(modulus);
+
+        return message;
+    }
 }

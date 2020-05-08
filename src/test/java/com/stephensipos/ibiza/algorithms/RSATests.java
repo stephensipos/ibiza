@@ -5,13 +5,14 @@ import org.junit.jupiter.api.Test;
 import java.math.BigInteger;
 
 import static java.math.BigInteger.ONE;
+import static java.math.BigInteger.valueOf;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RSATests {
 
     @Test
     public void generateKeysReturnsPKModulusAndSK() {
-        assertEquals(3, RSA.generateKeys().length);
+        assertEquals(3, RSA.generateKeys(1024).length);
     }
 
     @Test
@@ -61,5 +62,14 @@ public class RSATests {
             return;
         }
         fail("Unexpected exception!");
+    }
+
+    @Test
+    public void crtDecryptWorkbookTests () {
+        assertTrue(RSA.crtDecrypt(valueOf(15), valueOf(11), valueOf(5), valueOf(23)).equals(valueOf(20)));
+        assertTrue(RSA.crtDecrypt(valueOf(9), valueOf(13), valueOf(7), valueOf(70)).equals(valueOf(9)));
+
+        // a jegyzetben m = 51, ami (szerintem) hibás
+        assertTrue(RSA.crtDecrypt(valueOf(5), valueOf(7), valueOf(13), valueOf(70)).equals(valueOf(59)));
     }
 }

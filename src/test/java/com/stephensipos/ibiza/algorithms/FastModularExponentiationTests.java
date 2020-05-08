@@ -6,7 +6,6 @@ import java.math.BigInteger;
 
 import static java.math.BigInteger.ONE;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 public class FastModularExponentiationTests {
     @Test
