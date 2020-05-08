@@ -34,7 +34,6 @@ public class FastModularExponentiation {
     public static BigInteger powerWorkbook(BigInteger base, BigInteger exponent, BigInteger modulo) {
         if (modulo.compareTo(ONE) == -1)  throw new ArithmeticException("Modulo is less than one!");
 
-        System.out.println(String.format("powMod(%d, %d, %d)", base, exponent, modulo));
         var bs = computeBs(exponent);
         BigInteger product = bs.stream()
                 .map(b -> (int) Math.pow(2, b))
@@ -43,7 +42,6 @@ public class FastModularExponentiation {
                 .reduce(ONE, (a, b) -> a.multiply(b));
 
         var result = product.mod(modulo);
-        System.out.println(String.format("powMod(%d, %d, %d) -> %d", base, exponent, modulo, result));
         return result;
     }
 
