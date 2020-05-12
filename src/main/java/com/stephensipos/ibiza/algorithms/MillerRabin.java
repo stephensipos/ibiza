@@ -42,8 +42,7 @@ public class MillerRabin {
         if (n.equals(TWO))  return true;
         if (n.mod(BigInteger.valueOf(2)) == ZERO)  return false;
 
-
-        return millerTest(n, base);
+        return  millerTest(n, base);
     }
 
     private static boolean millerTest(BigInteger n, BigInteger base) {
@@ -57,10 +56,12 @@ public class MillerRabin {
             return true;
         } else {
             for (var r = 1; r < s; r += 1) {
-                if (power(base, d.multiply(TWO.pow(r)), n).equals(n.subtract(ONE))) {
+                x = power(x, TWO, n);
+                if (x.equals(n.subtract(ONE))) {
                     return true;
                 }
             }
+
             return false;
         }
     }
