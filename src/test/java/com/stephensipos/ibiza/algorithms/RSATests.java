@@ -47,69 +47,69 @@ public class RSATests {
     };
 
     @Test
-    public void generateKeysReturnsPKSKAndModulus() {
+    public void generateKeysReturnsArrayOfThreeBigIntegers(){
         assertEquals(3, RSA.generateKeys(1024).length);
     }
 
     @Test
-    public void encryptWithPreGeneratedKeys() {
+    public void encryptWithPreGeneratedKeysSmall() {
         assertTrue(RSA.encrypt(messages[0], keySets[0].getPk(), keySets[0].getModulus()).equals(ciphers[0]));
+    }
+
+    @Test
+    public void encryptWithPreGeneratedKeysLarge() {
         assertTrue(RSA.encrypt(messages[1], keySets[1].getPk(), keySets[1].getModulus()).equals(ciphers[1]));
     }
 
     @Test
-    public void decryptWithPreGeneratedKeys() {
+    public void decryptWithPreGeneratedKeysSmall() {
         assertTrue(RSA.decrypt(ciphers[0], keySets[0].getSk(), keySets[0].getModulus()).equals(messages[0]));
+    }
+
+    @Test
+    public void decryptWithPreGeneratedKeysLarge() {
         assertTrue(RSA.decrypt(ciphers[1], keySets[1].getSk(), keySets[1].getModulus()).equals(messages[1]));
     }
 
     @Test
-    public void encryptDecrypt() {
-        var keys = RSA.generateKeys(512);
+    public void encryptedMessageIsDifferentThanTheOriginal() {
         var m = new BigInteger("1234923849348579234857");
-        var c = RSA.encrypt(m, keys[0], keys[2]);
-        var m2 = RSA.decrypt(c, keys[1], keys[2]);
-
+        var c = RSA.encrypt(m, keySets[1].getPk(), keySets[1].getModulus());
         assertFalse(m.equals(c));
+    }
+
+    @Test
+    public void decryptionIsInverseOfEncryption() {
+        var m = new BigInteger("1234923849348579234857");
+        var c = RSA.encrypt(m, keySets[1].getPk(), keySets[1].getModulus());
+        var m2 = RSA.decrypt(c, keySets[1].getSk(), keySets[1].getModulus());
+
         assertTrue(m.equals(m2));
     }
 
     @Test
-    public void encryptDecryptString() {
-        var keys = RSA.generateKeys(512);
+    public void decryptionIsInverseOfEncryptionWithString() {
         var m = "Mily szó szökkent ki fogad kerítésin?";
-        var c = RSA.encryptString(m, keys[0], keys[2]);
-        var m2 = RSA.decryptString(c, keys[1], keys[2]);
+        var c = RSA.encryptString(m, keySets[1].getPk(), keySets[1].getModulus());
+        var m2 = RSA.decryptString(c, keySets[1].getSk(), keySets[1].getModulus());
 
         assertTrue(m.equals(m2));
     }
 
     @Test
     public void givenThatMessageEqualsWithModulusEncryptionResultsInException() {
-        var keys = RSA.generateKeys(512);
-        var modulus = keys[2];
-        var message = modulus;
-        try {
-            var c = RSA.encrypt(message, keys[0], keys[2]);
-            fail();
-        } catch (IllegalArgumentException e) {
-            assertTrue(true, "This is the expected behaviour.");
-        }
+        var message = keySets[1].getModulus();
+        assertThrows(IllegalArgumentException.class, () ->
+            RSA.encrypt(message, keySets[1].getPk(), keySets[1].getModulus())
+        );
     }
 
     @Test
     public void givenThatMessageIsLargerThanModulusEncryptionResultsInException() {
-        var keys = RSA.generateKeys(512);
-        var modulus = keys[2];
-        var message = modulus.add(ONE);
-        try {
-            RSA.encrypt(message, keys[0], keys[2]);
-            fail();
-        } catch (IllegalArgumentException e) {
-            // This is the expected behaviour
-            return;
-        }
-        fail("Unexpected exception!");
+        var message = keySets[1].getModulus().add(ONE);
+        assertThrows(IllegalArgumentException.class, () ->
+            RSA.encrypt(message, keySets[1].getPk(), keySets[1].getModulus())
+        );
     }
 
     @Test

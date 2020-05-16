@@ -1,6 +1,7 @@
 package com.stephensipos.ibiza;
 
 import com.stephensipos.ibiza.algorithms.RSA;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
@@ -13,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ThrowAwayTests {
 
     @Test
+    @Disabled
     public void genKeys() {
         Integer[] sizes = new Integer[] {16,32,64,128,256,521,1024,2048};
 

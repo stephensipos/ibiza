@@ -1,6 +1,5 @@
 package com.stephensipos.ibiza.algorithms;
 
-import org.checkerframework.common.value.qual.StaticallyExecutable;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -10,14 +9,28 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MillerRabinTests {
     @Test
-    public void examplesFromTheWorkbook() {
+    public void workbookExample1() {
         assertFalse(MillerRabin.maybePrime(561, 2));
+    }
+    @Test
+    public void workbookExample2() {
         assertFalse(MillerRabin.maybePrime(561, 13));
+    }
+    @Test
+    public void workbookExample3() {
         assertTrue(MillerRabin.maybePrime(197, 7));
+    }
+    @Test
+    public void workbookExample4() {
         assertTrue(MillerRabin.maybePrime(197, 12));
+    }
+    @Test
+    public void workbookExample5() {
         assertFalse(MillerRabin.maybePrime(243, 11));
+    }
+    @Test
+    public void workbookExample6() {
         assertFalse(MillerRabin.maybePrime(243, 15));
-
     }
 
     @Test
